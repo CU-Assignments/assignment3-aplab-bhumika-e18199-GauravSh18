@@ -1,0 +1,40 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* deleteDuplicates(ListNode* head) {
+        // Create a dummy node to simplify edge cases.
+        ListNode* dummy = new ListNode(0);
+        dummy->next = head;
+        
+        ListNode* prev = dummy; // The previous node starts at the dummy node.
+        ListNode* current = head; // The current node starts at the head of the list.
+
+        while (current) {
+            // Check if the current node is a duplicate.
+            if (current->next && current->val == current->next->val) {
+                // Skip all nodes with the same value.
+                while (current->next && current->val == current->next->val) {
+                    current = current->next;
+                }
+                // Move the previous node's next pointer to the next distinct node.
+                prev->next = current->next;
+            } else {
+                // If no duplicate, just move the previous pointer forward.
+                prev = prev->next;
+            }
+            // Move to the next node.
+            current = current->next;
+        }
+        
+        return dummy->next; // Return the list starting after the dummy node.
+    }
+};
